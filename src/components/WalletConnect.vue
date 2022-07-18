@@ -54,11 +54,15 @@
 </template>
 
 <script lang="ts">
-import { log } from 'console'
 import { defineComponent, ref } from 'vue'
+import detectEthereumProvider from '@metamask/detect-provider'
 
 import { useWalletStore } from '../stores/wallet'
 
+interface ethereumProvider {
+  contents: any
+}
+let ethereumProvider: any = await detectEthereumProvider()
 export default defineComponent({
   async mounted() {
     await this.checkNetwork()
@@ -69,11 +73,19 @@ export default defineComponent({
     const targetNetwork = import.meta.env.VITE_BLOCKCHAIN_NETWORK_NAME
     const targetNetworkId = import.meta.env.VITE_BLOCKCHAIN_NETWORK_ID
     const network_ok = ref<boolean>(false)
-
     // checks if current chain matches with the one provided in env variable
     const checkNetwork = async () => {
       console.log({ window: window.ethereum })
-      console.log()
+      console.log(typeof ethereumProvider)
+
+      if (ethereumProvider) {
+        const currentChainId = await ethereumProvider.request({
+          method: 'eth_chainId',
+        })
+        console.log(parseInt(currentChainId, 16))
+      } else {
+        console.log('Please install MetaMask!')
+      }
 
       // if (window.ethereum) {
       //   const currentChainId = await window.ethereum.request({
