@@ -2,13 +2,12 @@ import { defineStore } from 'pinia'
 
 interface WalletData {
   address: string
-  acc_short: string
 }
 
 export const useWalletStore = defineStore('wallet', {
   state: () => {
     return {
-      address: '',
+      address:'',
       provider: null,
       acc_short: '',
     }

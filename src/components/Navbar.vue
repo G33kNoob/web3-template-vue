@@ -9,7 +9,16 @@
             <button
               @click="isOpen = !isOpen"
               type="button"
-              class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              class="
+                inline-flex
+                items-center
+                justify-center
+                p-2
+                rounded-md
+                text-gray-400
+                hover:text-white hover:bg-gray-700
+                focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white
+              "
               aria-controls="mobile-menu"
               aria-expanded="false"
             >
@@ -25,12 +34,7 @@
                 stroke="currentColor"
                 aria-hidden="true"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
 
               <svg
@@ -43,41 +47,19 @@
                 stroke="currentColor"
                 aria-hidden="true"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
           <div class="flex-shrink-0 flex items-center">
-            <img
-              class="block lg:hidden h-8 w-auto"
-              src="https://soliditytips.com/terminal-icon.png"
-              alt="SolidityTips.com logo"
-            />
-            <img
-              class="hidden lg:block h-8 w-auto"
-              src="https://soliditytips.com/terminal-icon.png"
-              alt="SolidityTips.com logo"
-            />
+            <img class="block lg:hidden h-8 w-auto" src="https://soliditytips.com/terminal-icon.png" alt="SolidityTips.com logo" />
+            <img class="hidden lg:block h-8 w-auto" src="https://soliditytips.com/terminal-icon.png" alt="SolidityTips.com logo" />
           </div>
           <div class="hidden md:ml-6 md:flex md:items-center md:space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <router-link
-              :to="{ name: 'Home' }"
-              class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
-              aria-current="page"
-              >Home</router-link
-            >
+            <router-link :to="{ name: 'Home' }" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Home</router-link>
 
-            <router-link
-              :to="{ name: 'About' }"
-              class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >About</router-link
-            >
+            <router-link :to="{ name: 'About' }" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</router-link>
           </div>
         </div>
         <div class="flex items-center">
@@ -138,19 +120,9 @@
     <div v-if="isOpen" class="md:hidden" id="mobile-menu">
       <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-        <router-link
-          :to="{ name: 'Home' }"
-          class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
-          aria-current="page"
-          >Home</router-link
-        >
+        <router-link :to="{ name: 'Home' }" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Home</router-link>
 
-        <router-link
-          :to="{ name: 'About' }"
-          class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
-          aria-current="page"
-          >About</router-link
-        >
+        <router-link :to="{ name: 'About' }" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">About</router-link>
       </div>
     </div>
   </nav>
@@ -159,35 +131,35 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 
-// import { useWalletStore } from '../stores/wallet'
+import { useWalletStore } from '../stores/wallet'
 import WalletConnect from './WalletConnect.vue'
 
 export default defineComponent({
   components: { WalletConnect },
-  // setup() {
-  //   const walletStore = useWalletStore()
-  //   const isOpen = ref<boolean>(false)
+  setup() {
+    const walletStore = useWalletStore()
+    const isOpen = ref<boolean>(false)
 
-  //   const connectWallet = async () => {
-  //     try {
-  //       // @ts-expect-error Window.ethereum not typed
-  //       const data = await window.ethereum.request({
-  //         method: 'eth_requestAccounts',
-  //       })
-  //       console.log('data :>> ', data)
-
-  //       walletStore.saveWalletData({ address: data[0] })
-  //       console.log('DApp connected to your wallet 💰')
-  //     } catch (error) {
-  //       console.error('Error connecting DApp to your wallet')
-  //       console.error(error)
-  //     }
-  //   }
-  //   return {
-  //     connectWallet,
-  //     walletStore,
-  //     isOpen,
-  //   }
-  // },
+    const connectWallet = async () => {
+      try {
+        // @ts-expect-error Window.ethereum not typed
+        const data = await window.ethereum.request({
+          method: 'eth_requestAccounts',
+        })
+        let address: string = data[0]
+        console.log({ type: typeof address })
+        // walletStore.saveWalletData({ address: address })
+        console.log('DApp connected to your wallet 💰')
+      } catch (error) {
+        console.error('Error connecting DApp to your wallet')
+        console.error(error)
+      }
+    }
+    return {
+      connectWallet,
+      walletStore,
+      isOpen,
+    }
+  },
 })
 </script>

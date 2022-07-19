@@ -59,10 +59,7 @@ import detectEthereumProvider from '@metamask/detect-provider'
 
 import { useWalletStore } from '../stores/wallet'
 
-interface ethereumProvider {
-  contents: any
-}
-let ethereumProvider: any = await detectEthereumProvider()
+const ethereumProvider: any = await detectEthereumProvider()
 export default defineComponent({
   async mounted() {
     await this.checkNetwork()
@@ -82,25 +79,18 @@ export default defineComponent({
         const currentChainId = await ethereumProvider.request({
           method: 'eth_chainId',
         })
+        if (parseInt(currentChainId, 16) == targetNetworkId) network_ok.value = true
         console.log(parseInt(currentChainId, 16))
       } else {
         console.log('Please install MetaMask!')
       }
-
-      // if (window.ethereum) {
-      //   const currentChainId = await window.ethereum.request({
-      //     method: 'eth_chainId',
-      //   })
-
-      //   if (currentChainId == targetNetworkId) network_ok.value = true
-      // }
     }
     // switches network to the one provided in env variable
     const switchNetwork = async () => {
-      // await window.ethereum.request({
-      //   method: 'wallet_switchEthereumChain',
-      //   params: [{ chainId: targetNetworkId }],
-      // })
+      await ethereumProvider.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: targetNetworkId }],
+      })
       // // refresh
       window.location.reload()
     }
@@ -112,9 +102,9 @@ export default defineComponent({
         const data = await window.ethereum.request({
           method: 'eth_requestAccounts',
         })
-        console.log('data :>> ', data)
-
-        // walletStore.saveWalletData({ address: data[0] })
+        console.log('data :>> ', typeof data)
+        let addressUser: string = data[0]
+        walletStore.saveWalletData({ address: data[0] })
         console.log('DApp connected to your wallet 💰')
       } catch (error) {
         console.error('Error connecting DApp to your wallet')
